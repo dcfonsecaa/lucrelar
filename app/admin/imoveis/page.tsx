@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { AdminHeader } from "../../../components/admin/AdminHeader";
+import { AdminShell } from "../../../components/admin/AdminShell";
+import { properties } from "../../../data/properties";
+import { formatCurrency } from "../../../lib/format";
+export const metadata: Metadata = { title: "Gerenciar imóveis" };
+export default function AdminPropertiesPage() { return <AdminShell><AdminHeader title="Imóveis" /><div className="admin-content"><div className="admin-toolbar"><div><h2>Portfólio cadastrado</h2><p>Gerencie anúncios, status e informações.</p></div><Link href="/admin/imoveis/novo" className="button button--primary">+ Novo imóvel</Link></div><div className="admin-filters"><input placeholder="Buscar por título ou bairro..." /><select><option>Todos os status</option><option>Ativo</option><option>Rascunho</option><option>Inativo</option></select></div><div className="property-admin-list"><div className="property-admin-row property-admin-head"><span>Imóvel</span><span>Finalidade</span><span>Valor</span><span>Status</span><span>Ações</span></div>{properties.map(p => <div className="property-admin-row" key={p.id}><span className="admin-property"><img src={p.images[0]} alt="" /><span><strong>{p.title}</strong><small>{p.neighborhood} · {p.city}</small></span></span><span>{p.purpose}</span><span>{formatCurrency(p.price)}</span><span><i className={`status status--${p.status.toLowerCase()}`}>{p.status}</i></span><span className="admin-actions"><Link href={`/imoveis/${p.slug}`} title="Visualizar">↗</Link><button title="Editar">✎</button><button title="Desativar">○</button></span></div>)}</div></div></AdminShell>; }
